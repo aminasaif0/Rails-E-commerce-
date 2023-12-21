@@ -3,6 +3,5 @@ module RoleCheck
 
   def has_role?(role)
     roles.exists?(name: role)
-    # role == 'admin'
   end
 end
