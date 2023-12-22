@@ -21,6 +21,9 @@ class ProductPolicy < ApplicationPolicy
       user&.has_role?('admin')
     end
 
+    def add_to_cart?
+      true
+    end
     class Scope < Scope
       def resolve
         scope.all

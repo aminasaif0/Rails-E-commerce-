@@ -11,6 +11,10 @@
     <p><strong>Description:</strong> <%= product.description %></p>
     <p><strong>Price:</strong> <%= number_to_currency(product.price, unit: "PKR", precision: 2) %></p>
     <p><strong>Stock Quantity:</strong> <%= product.stock_quantity %></p>
+    <% if current_user %>
+      <%= button_to 'Add to Cart', add_to_cart_product_path(product), method: :post %>
+    <% end %>
+
   </div>
 <% end %>
 

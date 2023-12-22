@@ -39,6 +39,15 @@ class ProductsController < ApplicationController
       redirect_to products_url, notice: 'Product was successfully destroyed.'
     end
 
+    def add_to_cart
+      @product = Product.find(params[:id])
+      if current_user.cart.nil?
+        current_user.create_cart
+      end
+      current_user.cart.add_product(@product)
+      redirect_to products_path, notice: 'Product added to cart.'
+    end
+
     private
 
     def set_product
