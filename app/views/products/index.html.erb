@@ -8,10 +8,7 @@
     <p><strong>Stock Quantity:</strong> <%= product.stock_quantity %></p>
   </div>
 <% end %>
-<%
-begin%>
- <% if current_user&.has_role?("admin") %>
+
+<% if policy(Product).create? %>
   <%= link_to 'New Product', new_product_path %>
 <% end %>
-<%
-end%>
