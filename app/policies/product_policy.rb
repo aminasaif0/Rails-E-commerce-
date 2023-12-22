@@ -18,6 +18,8 @@ class ProductPolicy < ApplicationPolicy
     end
 
     def destroy?
+      Rails.logger.debug("I was here, I checked destroy policy")
+
       user&.has_role?('admin')
     end
 

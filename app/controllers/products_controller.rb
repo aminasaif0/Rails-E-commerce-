@@ -1,6 +1,7 @@
 class ProductsController < ApplicationController
     before_action :authenticate_user!, except: [:index, :show]
     before_action :set_product, only: [:show, :edit, :update, :destroy]
+    before_action -> { authorize Product }
 
     def index
       @products = Product.all
@@ -15,10 +16,8 @@ class ProductsController < ApplicationController
 
     def create
       @product = Product.new(product_params)
-
       if @product.save
         redirect_to @product, notice: 'Product was successfully created.'
-        byebug
       else
         render :index, status: :unprocessable_entity
       end
@@ -31,7 +30,7 @@ class ProductsController < ApplicationController
       if @product.update(product_params)
         redirect_to @product, notice: 'Product was successfully updated.'
       else
-        render :edit
+        render :edit, status: :unprocessable_entity
       end
     end
 
