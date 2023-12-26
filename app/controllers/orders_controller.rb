@@ -10,8 +10,8 @@ class OrdersController < ApplicationController
     @order = current_user.orders.build(order_params)
 
     if @order.save
+      OrderMailer.order_confirmation(@order).deliver_now
       current_user.cart.cart_items.destroy_all
-
       redirect_to products_path, notice: 'Order successfully placed.'
     else
       redirect_to products_path, alert: 'Order creation failed.'
