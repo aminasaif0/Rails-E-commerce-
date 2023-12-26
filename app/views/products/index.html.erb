@@ -5,6 +5,12 @@
   <%= link_to 'Sign In', new_user_session_path %>
 <% end %>
 
+<% if policy(Product).create? %>
+  <%= link_to 'New Product', new_product_path %>
+<% end %>
+
+<%= link_to 'View Cart', cart_path(current_user.cart), class: 'cart-link' if current_user&.cart %>
+
 <% @products.each do |product| %>
   <div class="product">
     <h2><%= link_to product.name, product %></h2>
@@ -16,8 +22,4 @@
     <% end %>
 
   </div>
-<% end %>
-
-<% if policy(Product).create? %>
-  <%= link_to 'New Product', new_product_path %>
 <% end %>
