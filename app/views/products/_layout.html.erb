@@ -1,0 +1,30 @@
+<%= form_for @product do |f| %>
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :description %>
+    <%= f.text_area :description %>
+  </div>
+
+  <div class="field">
+    <%= f.label :price %>
+    <%= f.text_field :price %>
+  </div>
+
+  <div class="field">
+    <%= f.label :stock_quantity %>
+    <%= f.number_field :stock_quantity %>
+  </div>
+
+  <div class="field">
+    <%= f.label :category_id %>
+    <%= f.collection_select :category_id, Category.all, :id, :name, prompt: 'Select a category' %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit 'Save Product' %>
+  </div>
+<% end %>
