@@ -10,4 +10,12 @@ class User < ApplicationRecord
   has_many :roles, through: :roles_users
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+
+  after_create :assign_default_role
+
+  private
+  def assign_default_role
+    role = Role.find_by(name: 'User')
+    self.roles << role if role
+  end
 end
