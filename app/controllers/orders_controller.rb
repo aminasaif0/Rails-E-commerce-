@@ -18,6 +18,10 @@ class OrdersController < ApplicationController
     end
   end
 
+  def admin_index
+    @orders = Order.all
+  end
+
   private
 
   def set_cart

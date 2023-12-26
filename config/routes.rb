@@ -13,6 +13,10 @@ Rails.application.routes.draw do
   resources :carts, only: [:show]
   resources :cart_items, only: [:destroy]
   resources :users, only: [:index]
-  resources :orders, only: [:new, :create, :show]
+  resources :orders do
+    collection do
+      get 'admin_index'
+    end
+  end
   resources :categories, only: [:new, :create]
 end
