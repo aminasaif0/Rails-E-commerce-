@@ -14,8 +14,8 @@ class User < ApplicationRecord
   after_create :assign_default_role
 
   private
-  def assign_default_role
-    role = Role.find_by(name: 'User')
-    self.roles << role if role
-  end
+    def assign_default_role
+      role = Role.find_by(name: 'User')
+      self.roles << role if role
+    end
 end

@@ -10,15 +10,15 @@ class ProductPolicy < ApplicationPolicy
     end
 
     def create?
-      user&.has_role?('admin')
+      user&.isAdmin?
     end
 
     def update?
-      user&.has_role?('admin')
+      user&.isAdmin?
     end
 
     def destroy?
-      user&.has_role?('admin')
+      user&.isAdmin?
     end
 
     def add_to_cart?
