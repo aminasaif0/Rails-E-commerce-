@@ -5,4 +5,4 @@ class OrderMailer < ApplicationMailer
       @order = order
       mail(to: @order.user.email, subject: 'Order Confirmation')
     end
-  end
+end
