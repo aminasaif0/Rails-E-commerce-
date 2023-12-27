@@ -1,6 +1,6 @@
 module RoleCheck
   extend ActiveSupport::Concern
-  def has_role?(role)
-    roles.exists?(name: role)
+  def isAdmin?
+    roles.exists?(name: 'admin')
   end
 end

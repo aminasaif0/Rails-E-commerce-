@@ -11,15 +11,15 @@
 
 <%= link_to 'View Cart', cart_path(current_user.cart), class: 'cart-link' if current_user&.cart %>
 
-<% if current_user&.has_role?('admin') %>
+<% if current_user&.isAdmin? %>
   <%= link_to 'Manage Users', users_path %>
 <% end %>
 
-<% if current_user&.has_role?('admin') %>
+<% if current_user&.isAdmin? %>
   <%= link_to 'New Category', new_category_path %>
 <% end %>
 
-<% if current_user&.has_role?('admin') %>
+<% if current_user&.isAdmin? %>
   <%= link_to 'View All Orders', admin_index_orders_path %>
 <% end %>
 
@@ -30,7 +30,7 @@
     <p><strong>Price:</strong> <%= number_to_currency(product.price, unit: "PKR", precision: 2) %></p>
     <p><strong>Stock Quantity:</strong> <%= product.stock_quantity %></p>
 
-    <% if current_user && current_user.has_role?('admin') %>
+    <% if current_user && current_user.isAdmin? %>
       <%= button_to 'Delete', product_path(product), method: :delete, data: { confirm: 'Are you sure?' }, class: 'delete-product' %>
     <% end %>
 
