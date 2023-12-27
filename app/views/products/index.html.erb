@@ -33,10 +33,6 @@
     <% if current_user && current_user.isAdmin? %>
       <%= button_to 'Delete', product_path(product), method: :delete, data: { confirm: 'Are you sure?' }, class: 'delete-product' %>
     <% end %>
-
-    <% if current_user %>
-      <%= button_to 'Add to Cart', add_to_cart_product_path(product), method: :post %>
-    <% end %>
-
+    <%= button_to 'Add to Cart', add_to_cart_product_path(product), method: :post %>
   </div>
 <% end %>

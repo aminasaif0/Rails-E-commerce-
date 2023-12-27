@@ -11,6 +11,7 @@ class OrdersController < ApplicationController
 
     if @order.save
       OrderMailer.order_confirmation(@order).deliver_now
+      byebug
       current_user.cart.cart_items.destroy_all
       redirect_to products_path, notice: 'Order successfully placed.'
     else
