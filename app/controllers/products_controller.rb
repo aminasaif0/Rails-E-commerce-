@@ -4,7 +4,8 @@ class ProductsController < ApplicationController
     before_action -> { authorize Product }
 
     def index
-      @products = Product.all
+      @q = Product.ransack(params[:q])
+      @products = @q.result(distinct: true)
     end
 
     def show
