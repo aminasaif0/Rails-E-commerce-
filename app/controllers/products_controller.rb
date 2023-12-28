@@ -4,8 +4,9 @@ class ProductsController < ApplicationController
     before_action -> { authorize Product }
 
     def index
-      @q = params[:q]
-      @products = @q.present? ? Product.search(@q) : Product.all
+      @q = Product.ransack(params[:q])
+      @products = @q.result(distinct: true)
+      set_most_ordered_product
     end
 
     def show
@@ -54,5 +55,11 @@ class ProductsController < ApplicationController
 
     def product_params
       params.require(:product).permit(:name, :description, :price, :category_id, :stock_quantity)
+    end
+
+    def set_most_ordered_product
+      @most_ordered_product = Rails.cache.fetch('most_ordered_product', expires_in: 1.hour) do
+        Product.joins(:order_details).group('products.id').order('COUNT(order_details.id) DESC').first
+      end
     end
 end

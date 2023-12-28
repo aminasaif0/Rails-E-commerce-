@@ -34,6 +34,12 @@
   </div>
 <% end %>
 
+<% if @most_ordered_product %>
+  <h2>Most Ordered Product is : <%= @most_ordered_product.name %></h2>
+<% else %>
+  <p>No orders have been placed yet.</p>
+<% end %>
+
 <% @products.each do |product| %>
   <div class="product">
     <h2><%= link_to product.name, product %></h2>

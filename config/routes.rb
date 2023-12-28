@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   resources :orders do
     collection do
       get 'admin_index'
+      get 'most_ordered_product'
     end
   end
   resources :categories, only: [:new, :create]
