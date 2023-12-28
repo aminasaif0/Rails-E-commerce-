@@ -23,14 +23,14 @@
   <%= link_to 'View All Orders', admin_index_orders_path %>
 <% end %>
 
-<%= search_form_for @q do |f| %>
+<%= form_tag products_path, method: :get, class: 'search-form' do %>
   <div class="field">
-    <%= f.label :name_cont, 'Product Name contains:' %>
-    <%= f.text_field :name_cont %>
+    <%= label_tag :q, 'Product Name contains:' %>
+    <%= text_field_tag :q, params[:q] %>
   </div>
 
   <div class="actions">
-    <%= f.submit 'Search' %>
+    <%= submit_tag 'Search' %>
   </div>
 <% end %>
 
