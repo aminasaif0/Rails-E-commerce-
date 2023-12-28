@@ -46,6 +46,10 @@ gem "bootsnap", require: false
 
 gem "devise", "4.9.3"
 gem "pundit", "2.3.1"
+
+gem 'elasticsearch-model', '~> 7.0'
+gem 'elasticsearch-rails', '~> 7.0'
+
 gem 'ransack', "4.1.1"
 gem 'dalli', "3.2.6"
 gem 'memcachier', "0.0.2"
