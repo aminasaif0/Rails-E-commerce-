@@ -87,4 +87,9 @@ config.action_mailer.smtp_settings = {
 config.action_mailer.perform_deliveries = true
 config.action_mailer.raise_delivery_errors = true
 config.action_mailer.default_options = { from: 'amina.saif@pakeventures.com' }
+config.redis = {
+  host: '127.0.0.1',
+  port: 6379,
+  db: 'redis'
+}
 end

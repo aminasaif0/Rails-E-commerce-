@@ -9,6 +9,9 @@ Rails.application.routes.draw do
       post 'add_to_cart'
       delete 'destroy'
     end
+    collection do
+      get 'autocomplete'
+    end
   end
   resources :carts, only: [:show]
   resources :cart_items, only: [:destroy]

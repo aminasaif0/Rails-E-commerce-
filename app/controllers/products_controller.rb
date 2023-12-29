@@ -6,6 +6,7 @@ class ProductsController < ApplicationController
     def index
       @q = params[:q]
       @products = @q.present? ? Product.search(@q) : Product.all
+      byebug
     end
 
     def show
@@ -45,6 +46,13 @@ class ProductsController < ApplicationController
       current_user.create_cart if current_user.cart.nil?
       current_user.cart.add_product(@product)
       redirect_to products_path, notice: 'Product added to cart.'
+    end
+
+    def autocomplete
+      prefix = params[:term]
+      suggestions = Product.autocomplete_suggestions(prefix)
+      byebug
+      render json: suggestions
     end
 
     private

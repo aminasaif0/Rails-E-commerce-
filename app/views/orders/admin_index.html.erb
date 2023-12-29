@@ -1,0 +1,37 @@
+<h1>All Orders</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Order ID</th>
+      <th>User</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Email</th>
+      <th>Address</th>
+      <th>Phone Number</th>
+      <th>Province</th>
+      <th>Product Name</th>
+      <th>total amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @orders.each do |order| %>
+      <tr>
+        <td><%= order.id %></td>
+        <td><%= order.user.email %></td>
+        <td><%= order.first_name %></td>
+        <td><%= order.last_name %></td>
+        <td><%= order.email %></td>
+        <td><%= order.address %></td>
+        <td><%= order.phone_number %></td>
+        <td><%= order.province %></td>
+     <% OrderDetail.where(order_id: order.id).each do |order_detail| %>
+        <td><%= order_detail.product.name %></td>
+     <% end %>
+     <td><%= order.total_amount%></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= link_to 'Back to Products', products_path %>

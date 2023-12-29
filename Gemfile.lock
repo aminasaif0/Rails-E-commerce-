@@ -228,8 +228,17 @@ GEM
       psych (>= 4.0.0)
     redis (5.0.8)
       redis-client (>= 0.17.0)
+    redis-actionpack (5.4.0)
+      actionpack (>= 5, < 8)
+      redis-rack (>= 2.1.0, < 4)
+      redis-store (>= 1.1.0, < 2)
     redis-client (0.19.0)
       connection_pool
+    redis-rack (3.0.0)
+      rack-session (>= 0.2.0)
+      redis-store (>= 1.2, < 2)
+    redis-store (1.10.0)
+      redis (>= 4, < 6)
     regexp_parser (2.8.3)
     reline (0.4.1)
       io-console (~> 0.5)
@@ -297,7 +306,8 @@ DEPENDENCIES
   pundit (= 2.3.1)
   rails (~> 7.1.2)
   ransack (= 4.1.1)
-  redis (>= 4.0.1)
+  redis (= 5.0.8)
+  redis-actionpack (= 5.4.0)
   selenium-webdriver
   sprockets-rails
   sqlite3 (~> 1.4)

@@ -1,0 +1,9 @@
+<h2>Order Details</h2>
+<% @product_details.each do |product_detail| %>
+  <div>
+    <h4><%= product_detail[:product].name %></h4>
+    <p>Quantity: <%= product_detail[:quantity] %></p>
+    <p>Price: <%= product_detail[:price] %></p>
+    <p>Total Price: <%= product_detail[:total_price] %></p>
+  </div>
+<% end %>
