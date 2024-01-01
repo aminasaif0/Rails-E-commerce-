@@ -17,9 +17,7 @@ class OrdersController < ApplicationController
       )
     end
     if @order.save
-      # OrderMailer.order_confirmation(@order).deliver_now
       Rails.cache.delete('most_ordered_product')
-
       current_user.cart.cart_items.destroy_all
       redirect_to products_path, notice: 'Order successfully placed.'
     else
@@ -40,7 +38,6 @@ class OrdersController < ApplicationController
     most_ordered_product = Rails.cache.fetch('most_ordered_product', expires_in:1.hour) do
       Product.joins(:order_details).group('products.id').order('COUNT(order_details.id) DESC').first
     end
-    byebug
     @most_ordered_product = most_ordered_product
   end
 
