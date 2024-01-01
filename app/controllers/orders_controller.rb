@@ -8,7 +8,6 @@ class OrdersController < ApplicationController
 
   def create
     @order = current_user.orders.build(order_params)
-    byebug
     cart_items = @cart.cart_items.includes(:product)
 
     cart_items.each do |cart_item|
