@@ -34,10 +34,10 @@ class OrdersController < ApplicationController
   end
 
   def most_ordered_product
-    most_ordered_product = Rails.cache.fetch('most_ordered_product', expires_in:1.hour) do
+    @most_ordered_product = Rails.cache.fetch('most_ordered_product', expires_in:1.hour) do
       Product.joins(:order_details).group('products.id').order('COUNT(order_details.id) DESC').first
     end
-    @most_ordered_product = most_ordered_product
+    @most_ordered_product
   end
 
   private
