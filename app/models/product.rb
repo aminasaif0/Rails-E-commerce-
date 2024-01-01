@@ -51,7 +51,5 @@ class Product < ApplicationRecord
   def self.autocomplete_suggestions(prefix)
     redis_instance = Redis.new
     redis_instance.zrangebylex('autocomplete_names', "[#{prefix.downcase}", "[#{prefix.downcase}\xff")
-    Rails.logger.debug("Autocomplete suggestions for 'prefix': #{Product.autocomplete_suggestions('prefix')}")
-    byebug
   end
 end

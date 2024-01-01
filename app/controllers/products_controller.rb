@@ -50,7 +50,7 @@ class ProductsController < ApplicationController
     def autocomplete
       prefix = params[:term]
       suggestions = Product.autocomplete_suggestions(prefix)
-      render json: suggestions
+      render json: suggestions and return
     end
 
     private
