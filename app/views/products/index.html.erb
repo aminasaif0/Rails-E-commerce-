@@ -1,4 +1,5 @@
 <h1>Product List</h1>
+
 <% if current_user %>
   <%= link_to "Sign Out", destroy_user_session_path, data: { "turbo-method": :delete } %>
 <% else %>
@@ -26,18 +27,12 @@
 <%= form_tag products_path, method: :get, class: 'search-form' do %>
   <div class="field">
     <%= label_tag :q, 'Product Name contains:' %>
-    <%= text_field_tag :q, params[:q] %>
+    <%= text_field_tag :q, params[:q], id: 'product-search' %>
   </div>
 
   <div class="actions">
     <%= submit_tag 'Search' %>
   </div>
-<% end %>
-
-<% if @most_ordered_product %>
-  <h2>Most Ordered Product is : <%= @most_ordered_product.name %></h2>
-<% else %>
-  <p>No orders have been placed yet.</p>
 <% end %>
 
 <% @products.each do |product| %>
@@ -53,3 +48,20 @@
     <%= button_to 'Add to Cart', add_to_cart_product_path(product), method: :post %>
   </div>
 <% end %>
+<%= paginate @products %>
+
+<script>
+  $(function() {
+    $('#product-search').autocomplete({
+      source: '/products/autocomplete',
+      minLength: 2
+    });
+
+    $('#product-search').on('input', function() {
+      var searchTerm = $(this).val();
+      if (searchTerm.length >= 2) {
+        $('#product-search').autocomplete('search', searchTerm);
+      }
+    });
+  });
+</script>

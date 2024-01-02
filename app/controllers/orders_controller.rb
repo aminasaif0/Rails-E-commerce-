@@ -8,9 +8,15 @@ class OrdersController < ApplicationController
 
   def create
     @order = current_user.orders.build(order_params)
+    cart_items = @cart.cart_items.includes(:product)
 
+    cart_items.each do |cart_item|
+      order_detail = @order.order_details.build(
+        product: cart_item.product
+      )
+    end
     if @order.save
-      OrderMailer.order_confirmation(@order).deliver_now
+      Rails.cache.delete('most_ordered_product')
       current_user.cart.cart_items.destroy_all
       redirect_to products_path, notice: 'Order successfully placed.'
     else
@@ -18,8 +24,20 @@ class OrdersController < ApplicationController
     end
   end
 
+  def show
+    @order = Order.find_by(params[:id])
+    @product_details = @order.product_details
+  end
+
   def admin_index
-    @orders = Order.all
+    @orders = Order.all.page(params[:page]).per(5)
+  end
+
+  def most_ordered_product
+    @most_ordered_product = Rails.cache.fetch('most_ordered_product', expires_in:1.hour) do
+      Product.joins(:order_details).group('products.id').order('COUNT(order_details.id) DESC').first
+    end
+    @most_ordered_product
   end
 
   private

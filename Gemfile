@@ -27,7 +27,8 @@ gem "stimulus-rails"
 gem "jbuilder"
 
 # Use Redis adapter to run Action Cable in production
-gem "redis", ">= 4.0.1"
+gem "redis", '5.0.8'
+gem "redis-actionpack", '5.4.0'
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
@@ -53,12 +54,13 @@ gem 'elasticsearch-rails', '~> 7.0'
 gem 'ransack', "4.1.1"
 gem 'dalli', "3.2.6"
 gem 'memcachier', "0.0.2"
-
+gem 'kaminari', "1.2.2"
+gem 'searchkick', "5.3.1"
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ]
   gem "byebug"
-
+  gem 'rspec-rails', '6.1.0'
 end
 
 group :development do

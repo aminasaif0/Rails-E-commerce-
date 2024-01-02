@@ -24,6 +24,11 @@ class ProductPolicy < ApplicationPolicy
     def add_to_cart?
       true
     end
+
+    def autocomplete?
+      true
+    end
+
     class Scope < Scope
       def resolve
         scope.all
