@@ -9,10 +9,6 @@ class Product < ApplicationRecord
   has_many :cart_items, dependent: :destroy
 
   after_commit on: [:create, :update] do
-    Product.store_autocomplete_names
-  end
-
-  after_commit on: [:create, :update] do
     Product.__elasticsearch__.index_document
   end
   searchkick word_start: [:name], suggest: [:name]
@@ -22,6 +18,7 @@ class Product < ApplicationRecord
     name: name
   }
   end
+
   def self.ransackable_attributes(auth_object = nil)
     %w[category_id created_at description id name price stock_quantity updated_at]
   end
