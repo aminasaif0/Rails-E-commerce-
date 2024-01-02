@@ -9,9 +9,15 @@ class Product < ApplicationRecord
   has_many :cart_items, dependent: :destroy
 
   after_commit on: [:create, :update] do
-    Product.store_autocomplete_names
+    Product.__elasticsearch__.index_document
   end
+  searchkick word_start: [:name], suggest: [:name]
 
+  def search_data
+  {
+    name: name
+  }
+  end
   def self.ransackable_attributes(auth_object = nil)
     %w[category_id created_at description id name price stock_quantity updated_at]
   end
@@ -23,11 +29,7 @@ class Product < ApplicationRecord
     end
   end
 
-  def as_indexed_json(_options = {})
-    as_json(only: %i[name description category_id price stock_quantity])
-  end
-
-  def self.search(query)
+  def self.autocomplete_suggestions(query)
     search_params = {
       query: {
         match: {
@@ -38,18 +40,22 @@ class Product < ApplicationRecord
         }
       }
     }
-    __elasticsearch__.search(search_params).records
+
+    result = __elasticsearch__.search(search_params)
+    suggestions = result.records.map(&:name)
+    suggestions
   end
 
-  def self.store_autocomplete_names
-    Product.pluck(:name).each do |name|
-      redis_instance = Redis.new
-      redis_instance.zadd('autocomplete_names', 0, name.downcase)
-    end
-  end
-
-  def self.autocomplete_suggestions(prefix)
-    redis_instance = Redis.new
-    redis_instance.zrangebylex('autocomplete_names', "[#{prefix.downcase}", "[#{prefix.downcase}\xff")
+  def as_indexed_json(options = {})
+  {
+    name: name,
+    description: description,
+    category_id: category_id,
+    price: price,
+    stock_quantity: stock_quantity,
+    suggest: {
+      input: [name, description, category.try(:name)].compact.join(' ')
+    }
+  }
   end
 end
