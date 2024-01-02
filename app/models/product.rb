@@ -8,10 +8,12 @@ class Product < ApplicationRecord
   has_many :orders, through: :order_details, dependent: :destroy
   has_many :cart_items, dependent: :destroy
 
-  after_commit on: [:create, :update] do
-    Product.__elasticsearch__.index_document
-  end
+  after_commit :update_elastic_search_index, on: [:create, :update]
   searchkick word_start: [:name], suggest: [:name]
+
+  def update_elastic_search_index
+    self.__elasticsearch__.index_document
+  end
 
   def search_data
   {
@@ -28,19 +30,5 @@ class Product < ApplicationRecord
       indexes :name, analyzer: 'english'
       indexes :description, analyzer: 'english'
     end
-  end
-
-  def self.autocomplete_suggestions(query)
-    search_params = {
-      query: {
-        match: {
-          name: {
-            query: query,
-            fuzziness: 'AUTO'
-          }
-        }
-      }
-    }
-    __elasticsearch__.search(search_params).records
   end
 end
