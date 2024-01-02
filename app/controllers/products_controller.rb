@@ -48,9 +48,9 @@ class ProductsController < ApplicationController
   end
 
   def autocomplete
-    prefix = params[:term]
-    suggestions = Product.autocomplete_suggestions(prefix)
-    render json: suggestions and return
+    query = params[:term]
+    suggestions = Product.search(query, fields: [:name], match: :word_start, suggest: true)
+    render json: suggestions.map(&:name) and return
   end
 
   private

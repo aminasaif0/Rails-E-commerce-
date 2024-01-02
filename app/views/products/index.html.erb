@@ -58,7 +58,6 @@
     });
 
     $('#product-search').on('input', function() {
-      console.log('i am working');
       var searchTerm = $(this).val();
       if (searchTerm.length >= 2) {
         $('#product-search').autocomplete('search', searchTerm);
