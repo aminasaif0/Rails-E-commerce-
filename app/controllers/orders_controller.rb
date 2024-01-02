@@ -30,7 +30,7 @@ class OrdersController < ApplicationController
   end
 
   def admin_index
-    @orders = Order.all
+    @orders = Order.all.page(params[:page]).per(5)
   end
 
   def most_ordered_product
