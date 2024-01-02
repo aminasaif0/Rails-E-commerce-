@@ -55,6 +55,8 @@ gem 'ransack', "4.1.1"
 gem 'dalli', "3.2.6"
 gem 'memcachier', "0.0.2"
 gem 'kaminari', "1.2.2"
+gem 'rails-controller-testing', "1.0.5"
+gem 'kaminari', "1.2.2"
 gem 'searchkick', "5.3.1"
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -77,4 +79,5 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  gem 'factory_bot_rails'
 end
