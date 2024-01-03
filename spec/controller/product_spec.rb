@@ -1,8 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe ProductsController, type: :controller do
+
   let(:category) { FactoryBot.create(:category) }
   let(:product) { FactoryBot.create(:product, category: category) }
+
   describe 'GET #index' do
     it 'renders the index template' do
       get :index
