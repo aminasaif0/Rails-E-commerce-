@@ -21,10 +21,6 @@ class Product < ApplicationRecord
   }
   end
 
-  def self.ransackable_attributes(auth_object = nil)
-    %w[category_id created_at description id name price stock_quantity updated_at]
-  end
-
   settings index: { number_of_shards: 1 } do
     mappings dynamic: 'false' do
       indexes :name, analyzer: 'english'
