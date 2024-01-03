@@ -39,6 +39,18 @@ RSpec.describe ProductsController, type: :controller do
         }.to change(Product, :count).by(1)
       end
 
+      it 'sets the correct name for the created product' do
+        post :create, params: { product: FactoryBot.attributes_for(:product, category_id: category.id) }
+        last_created_product = Product.last
+        expect(last_created_product.name).to eq('Sample Product')
+      end
+
+      it 'set correct category for the created product' do
+        post :create, params: { product: FactoryBot.attributes_for(:product, category_id: category.id) }
+        last_created_product = Product.last
+        expect(last_created_product.category.name).to eq('car')
+      end
+
       it 'redirects to the created product' do
         post :create, params: { product: FactoryBot.attributes_for(:product, category_id: category.id) }
         expect(response).to redirect_to(Product.last)
@@ -90,7 +102,7 @@ RSpec.describe ProductsController, type: :controller do
       sleep 1
       expect{
         delete :destroy, params: {id: product.id}
-      }.to change(Product,:count).by(-1)
+      }.to change { Product.exists?(product.id) }.from(true).to(false)
     end
 
     it 'redirects to the products list' do
