@@ -8,6 +8,30 @@ RSpec.describe Product, type: :model do
     it { should have_many(:cart_items).dependent(:destroy) }
   end
 
+  describe 'callbacks' do
+    it 'triggers update_elastic_search_index after commit on create' do
+      product = build(:product)
+      expect(product).to receive(:update_elastic_search_index)
+      product.save!
+    end
+
+    it 'triggers update_elastic_search_index after commit on update' do
+      product = create(:product)
+      expect(product).to receive(:update_elastic_search_index)
+      product.update!(name: 'Updated Product')
+    end
+  end
+
+  describe 'searchkick configuration' do
+    it 'has searchkick word start option for :name' do
+      expect(Product.searchkick_options[:word_start]).to include(:name)
+    end
+
+    it 'has searchkick suggest option for :name' do
+      expect(Product.searchkick_options[:suggest]).to include(:name)
+    end
+  end
+
   describe 'elasticsearch methods' do
     let(:product) { create(:product) }
 
