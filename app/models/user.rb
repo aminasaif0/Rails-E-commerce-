@@ -7,7 +7,7 @@ class User < ApplicationRecord
   has_many :orders
   has_one :cart
   has_many :roles_users
-  has_many :roles, through: :roles_users
+  has_one :role
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
