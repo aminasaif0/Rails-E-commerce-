@@ -30,4 +30,72 @@ RSpec.describe ProductsController, type: :controller do
       expect(response).to render_template(:new)
     end
   end
+
+  describe 'POST #create' do
+    context 'with valid attributes' do
+      it 'creates a new product' do
+        expect {
+          post :create, params: { product: FactoryBot.attributes_for(:product, category_id: category.id) }
+        }.to change(Product, :count).by(1)
+      end
+
+      it 'redirects to the created product' do
+        post :create, params: { product: FactoryBot.attributes_for(:product, category_id: category.id) }
+        expect(response).to redirect_to(Product.last)
+      end
+    end
+
+    context 'with invalid attributes' do
+      it 'renders the new template with errors' do
+        post :create, params: { product: FactoryBot.attributes_for(:product, name: nil) }
+        expect(response).to render_template(:index)
+        expect(assigns(:product).errors).not_to be_empty
+      end
+    end
+  end
+
+  describe 'GET #edit' do
+    it 'renders the edit template' do
+      get :edit, params: { id: product.id }
+      expect(response).to render_template(:edit)
+    end
+  end
+
+  describe 'PUT #update' do
+    context 'with valid attributes' do
+      it 'updates the product' do
+        new_name = 'Updated Name'
+        put :update, params: { id: product.id, product: { name: new_name } }
+        updated_product = product.reload
+        expect(updated_product.reload.name).to eq(new_name)
+      end
+
+      it 'redirects to the updated product' do
+        put :update, params: { id: product.id, product: { name: 'Updated Name' } }
+        expect(response).to redirect_to(product)
+      end
+    end
+    context 'with invalid attributes' do
+      it 'renders the edit template with errors' do
+        put :update, params: { id: product.id, product: { name: nil } }
+        expect(response).to render_template(:edit)
+        expect(assigns(:product).errors).not_to be_empty
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    it 'destroys the product' do
+      product
+      sleep 1
+      expect{
+        delete :destroy, params: {id: product.id}
+      }.to change(Product,:count).by(-1)
+    end
+
+    it 'redirects to the products list' do
+      delete :destroy, params: { id: product.id }
+      expect(response).to redirect_to(products_url)
+    end
+  end
 end

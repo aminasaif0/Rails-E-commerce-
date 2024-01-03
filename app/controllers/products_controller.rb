@@ -41,7 +41,7 @@ class ProductsController < ApplicationController
   end
 
   def add_to_cart
-    @product = Product.find_by(params[:id])
+    @product = Product.find_by(id: params[:id])
     current_user.create_cart if current_user.cart.nil?
     current_user.cart.add_product(@product)
     redirect_to products_path, notice: 'Product added to cart.'
@@ -55,7 +55,7 @@ class ProductsController < ApplicationController
 
   private
   def set_product
-    @product = Product.find_by(params[:id])
+    @product = Product.find_by(id: params[:id])
   end
 
   def product_params
