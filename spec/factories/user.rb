@@ -5,6 +5,6 @@ FactoryBot.define do
     encrypted_password { Devise::Encryptor.digest(User, password) }
     reset_password_token { nil }
     reset_password_sent_at { nil }
-    remember_created_at { nil }\
+    remember_created_at { nil }
   end
 end
