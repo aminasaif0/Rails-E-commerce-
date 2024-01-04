@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_26_065525) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_04_071155) do
   create_table "addresses", force: :cascade do |t|
     t.string "street"
     t.string "city"
@@ -108,10 +108,6 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_26_065525) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "addresses", "users"
-  add_foreign_key "cart_items", "carts"
-  add_foreign_key "cart_items", "products"
-  add_foreign_key "carts", "users"
   add_foreign_key "order_details", "orders"
   add_foreign_key "order_details", "products"
   add_foreign_key "orders", "users"

@@ -50,6 +50,7 @@ class ProductsController < ApplicationController
   def autocomplete
     query = params[:term]
     suggestions = Product.search(query, fields: [:name], match: :word_start, suggest: true)
+    Product.reindex
     render json: suggestions.map(&:name) and return
   end
 
