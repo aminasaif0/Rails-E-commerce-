@@ -17,12 +17,12 @@ RSpec.describe ProductsController, type: :controller do
     end
   end
 
-  # describe 'GET #show' do
-  #   it 'renders the show template' do
-  #     get :show, params: { id: product.id }
-  #     expect(response).to render_template(:show)
-  #   end
-  # end
+  describe 'GET #show' do
+    it 'renders the show template' do
+      get :show, params: { id: product.id }
+      expect(response).to render_template(:show)
+    end
+  end
 
   describe 'GET #new' do
     it 'renders the new template' do
@@ -81,15 +81,17 @@ RSpec.describe ProductsController, type: :controller do
   describe 'PUT #update' do
     context 'with valid attributes' do
       it 'updates the product' do
-        new_name = 'Updated Name'
-        put :update, params: { id: product.id, product: { name: new_name } }
-        updated_product = product.reload
-        expect(updated_product.reload.name).to eq(new_name)
+        product_attributes = FactoryBot.attributes_for(:product, category_id: category.id)
+        put :update, params: { id: product.id, product: { name: product_attributes[:name] } }
+        updated_product = Product.find_by(name: product_attributes[:name])
+        expect(updated_product.reload.name).to eq(product_attributes[:name])
       end
 
       it 'redirects to the updated product' do
-        put :update, params: { id: product.id, product: { name: 'Updated Name' } }
-        expect(response).to redirect_to(product)
+        product_attributes = FactoryBot.attributes_for(:product, category_id: category.id)
+        put :update, params: { id: product.id, product: { name: product_attributes[:name] } }
+        updated_product = Product.find_by(name: product_attributes[:name])
+        expect(response).to redirect_to(updated_product)
       end
     end
     context 'with invalid attributes' do
