@@ -84,3 +84,5 @@ group :test do
   gem "selenium-webdriver"
   gem 'factory_bot_rails'
 end
+
+gem "sidekiq", "~> 7.2"

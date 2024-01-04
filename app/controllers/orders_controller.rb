@@ -19,6 +19,7 @@ class OrdersController < ApplicationController
     if @order.save
       Rails.cache.delete('most_ordered_product')
       current_user&.cart&.cart_items&.destroy_all
+      OrderMailer.order_confirmation(@order).deliver_later
       redirect_to products_path, notice: 'Order successfully placed.'
     else
       redirect_to products_path, alert: 'Order creation failed.'
