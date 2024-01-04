@@ -7,8 +7,8 @@ class Product < ApplicationRecord
   has_many :order_details
   has_many :orders, through: :order_details, dependent: :destroy
   has_many :cart_items, dependent: :destroy
-
-  after_commit :update_elastic_search_index, on: [:create, :update]
+  validates :name , presence: true
+  after_commit :update_elastic_search_index, on: [:create, :update, :destroy]
   searchkick word_start: [:name], suggest: [:name]
 
   def update_elastic_search_index
