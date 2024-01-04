@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CategoriesController, type: :controller do
+  let(:category) { FactoryBot.create(:category) }
 
   describe 'GET #new' do
     it 'assigns a new category to @category' do
@@ -17,9 +18,10 @@ RSpec.describe CategoriesController, type: :controller do
   describe 'POST #create' do
     context 'with valid parameters' do
       it 'creates a new category' do
-        expect {
-          post :create, params: { category: { name: 'Test Category' } }
-        }.to change(Category, :count).by(1)
+        category_attributes = FactoryBot.attributes_for(:category)
+        post :create, params: { category: category_attributes }
+        created_category = Category.find_by(name: category_attributes[:name])
+        expect(created_category).to be_present
       end
 
       it 'redirects to root_path' do
