@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_cart
+  before_action :set_cart, only: [:create]
 
   def new
     @order = Order.new
@@ -8,16 +8,17 @@ class OrdersController < ApplicationController
 
   def create
     @order = current_user.orders.build(order_params)
-    cart_items = @cart.cart_items.includes(:product)
+    cart_items = @cart&.cart_items&.includes(:product) || []
 
     cart_items.each do |cart_item|
       order_detail = @order.order_details.build(
         product: cart_item.product
       )
     end
+
     if @order.save
       Rails.cache.delete('most_ordered_product')
-      current_user.cart.cart_items.destroy_all
+      current_user&.cart&.cart_items&.destroy_all
       redirect_to products_path, notice: 'Order successfully placed.'
     else
       redirect_to products_path, alert: 'Order creation failed.'
@@ -25,7 +26,7 @@ class OrdersController < ApplicationController
   end
 
   def show
-    @order = Order.find_by(params[:id])
+    @order = Order.find_by(id: params[:id])
     @product_details = @order.product_details
   end
 

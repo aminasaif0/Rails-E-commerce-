@@ -6,4 +6,7 @@ class Order < ApplicationRecord
 
   validates :first_name, :last_name, :email, :address, :phone_number, :province, presence: true
 
+  def product_details
+    order_details.includes(:product)
+  end
 end
