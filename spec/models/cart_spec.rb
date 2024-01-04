@@ -17,9 +17,9 @@ RSpec.describe Cart, type: :model do
       expect {
         cart.add_product(product)
       }.to change(CartItem, :count).by(1)
-
-      expect(cart.cart_items.last.product).to eq(product)
-      expect(cart.cart_items.last.quantity).to eq(1)
+      last_cart = cart.cart_items.last
+      expect(last_cart.product).to eq(product)
+      expect(last_cart.last.quantity).to eq(1)
     end
   end
 end
