@@ -13,7 +13,13 @@ class User < ApplicationRecord
 
   after_create :assign_default_role
 
+  def add_admin_role
+    role = Role.find_by(name: 'admin')
+    self.roles << role unless roles.include?(role)
+  end
+
   private
+
     def assign_default_role
       role = Role.find_by(name: 'User')
       self.roles << role if role
