@@ -10,15 +10,11 @@ RSpec.describe OrderMailer, type: :mailer do
       Sidekiq::Testing.fake!
     end
 
-    after do
-      Sidekiq::Testing.inline!
-    end
-
     it 'sends order confirmation email asynchronously' do
       expect {
         OrderMailer.order_confirmation(order).deliver_later
         }.to change { ActiveJob::Base.queue_adapter.enqueued_jobs.size }.by(1)
-        OrderMailerJob.perform_in(1.second, order.id)
+        OrderMailerJob.perform_async(order.id)
 
       Sidekiq::Job.drain_all
       last_email = ActionMailer::Base.deliveries.last
