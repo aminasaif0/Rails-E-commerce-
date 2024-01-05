@@ -1,6 +1,7 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_cart, only: [:create]
+  before_action :set_cart, only: [:create]
 
   def new
     @order = Order.new
@@ -16,6 +17,7 @@ class OrdersController < ApplicationController
       )
     end
 
+
     if @order.save
       Rails.cache.delete('most_ordered_product')
       current_user&.cart&.cart_items&.destroy_all
@@ -27,6 +29,7 @@ class OrdersController < ApplicationController
   end
 
   def show
+    @order = Order.find_by(id: params[:id])
     @order = Order.find_by(id: params[:id])
     @product_details = @order.product_details
   end
