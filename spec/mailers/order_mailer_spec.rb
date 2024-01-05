@@ -10,6 +10,10 @@ RSpec.describe OrderMailer, type: :mailer do
       Sidekiq::Testing.fake!
     end
 
+    after do
+      Sidekiq::Testing.inline!
+    end
+
     it 'sends order confirmation email asynchronously' do
       expect {
         OrderMailer.order_confirmation(order).deliver_later
