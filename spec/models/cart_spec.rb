@@ -14,11 +14,10 @@ RSpec.describe Cart, type: :model do
       cart = create(:cart, user: user)
       product = create(:product)
 
-      product = create(:product)
-      cart_product = cart.add_product(product)
-
-      expect(cart.cart_items.map(&:product)).to include(product)
-
+      expect {
+        cart.add_product(product)
+      }.to change(CartItem, :count).by(1)
+      
       last_cart = cart.cart_items.last
       expect(last_cart.product).to eq(product)
     end
