@@ -20,6 +20,7 @@ module ECommerece
     config.factory_bot.definition_file_paths = ['spec/factories']
     config.factory_bot.definition_file_paths << 'test/factories' # if you use different paths
     config.factory_bot.reload
+    config.active_job.queue_adapter = :sidekiq
 
     # Configuration for the application, engines, and railties goes here.
     #
