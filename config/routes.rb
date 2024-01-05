@@ -12,7 +12,7 @@ Rails.application.routes.draw do
       get 'autocomplete'
     end
   end
-  resources :carts, only: [:show]
+  resource :carts, only: [:show]
   resources :cart_items, only: [:destroy]
   resources :users, only: [:index]
   resources :orders do

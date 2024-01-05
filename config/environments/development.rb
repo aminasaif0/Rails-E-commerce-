@@ -92,4 +92,5 @@ config.redis = {
   port: 6379,
   db: 'redis'
 }
+config.active_job.queue_adapter = :sidekiq
 end

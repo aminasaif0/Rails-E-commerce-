@@ -301,12 +301,6 @@ GEM
       websocket (~> 1.0)
     shoulda-matchers (6.0.0)
       activesupport (>= 5.2.0)
-    simplecov (0.22.0)
-      docile (~> 1.1)
-      simplecov-html (~> 0.11)
-      simplecov_json_formatter (~> 0.1)
-    simplecov-html (0.12.3)
-    simplecov_json_formatter (0.1.4)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -373,6 +367,8 @@ DEPENDENCIES
   searchkick (= 5.3.1)
   selenium-webdriver
   shoulda-matchers (= 6.0.0)
+  sidekiq (~> 7.2)
+  simplecov
   simplecov
   sprockets-rails
   sqlite3 (~> 1.4)

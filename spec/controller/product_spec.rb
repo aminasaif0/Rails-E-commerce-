@@ -48,9 +48,11 @@ RSpec.describe ProductsController, type: :controller do
       end
 
       it 'set correct category for the created product' do
-        post :create, params: { product: FactoryBot.attributes_for(:product, category_id: category.id) }
-        last_created_product = Product.last
-        expect(last_created_product.category.name).to eq('car')
+        product_attributes = FactoryBot.attributes_for(:product, category_id: category.id)
+        post :create, params: { product: product_attributes }
+        last_created_product = Product.find_by(name: product_attributes[:name])
+        category_name = Category.find_by(id: product_attributes[:category_id]).name
+        expect(last_created_product.category.name).to eq(category_name)
       end
 
       it 'redirects to the created product' do
@@ -116,6 +118,44 @@ RSpec.describe ProductsController, type: :controller do
     it 'redirects to the products list' do
       delete :destroy, params: { id: product.id }
       expect(response).to redirect_to(products_url)
+    end
+  end
+
+  describe 'POST #add_to_cart' do
+    it 'creates a cart for the user if it does not exist' do
+      expect {
+        post :add_to_cart, params: { id: product.id }
+      }.to change { user.reload.cart.present? }.from(false).to(true)
+    end
+
+    it 'adds the product to the user\'s cart' do
+      post :add_to_cart, params: { id: product.id }
+      expect(user.cart.cart_items.map(&:product)).to include(product)
+    end
+
+    it 'redirects to products_path with a notice' do
+      post :add_to_cart, params: { id: product.id }
+      expect(response).to redirect_to(products_path)
+      expect(flash[:notice]).to eq('Product added to cart.')
+    end
+  end
+
+  describe 'GET #autocomplete' do
+    let!(:product1) { create(:product) }
+    let!(:product2) { create(:product) }
+    it 'returns a JSON response with product name suggestions' do
+      get :autocomplete, params: { term: product1.name[0,2] }
+      json_response = JSON.parse(response.body)
+      expect(response).to be_successful
+      expect(json_response).to include(product1.name)
+    end
+
+    it 'returns an empty JSON array for no matching suggestions' do
+      get :autocomplete, params: { term: 'XYZ' }
+
+      json_response = JSON.parse(response.body)
+      expect(response).to be_successful
+      expect(json_response).to eq([])
     end
   end
 end
